@@ -21,12 +21,14 @@ class TestBuildResponseParts:
         assert len(parts[0]) < len(long_text)
         assert len(short_parts[0]) < len(parts[0])
 
-    def test_thinking_content_truncated_at_500_chars(self):
+    def test_thinking_content_not_truncated(self):
+        # Truncation disabled - user requested full thinking content
         inner = "x" * 800
         text = f"{EXP_START}{inner}{EXP_END}"
         parts = build_response_parts(text, is_complete=True, content_type="thinking")
         assert len(parts) == 1
-        assert "truncated" in parts[0].lower()
+        assert "truncated" not in parts[0].lower()
+        assert inner in parts[0]  # Full content preserved
 
     def test_plain_text_single_part(self):
         parts = build_response_parts("short text", is_complete=True)
