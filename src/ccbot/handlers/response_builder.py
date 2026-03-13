@@ -42,17 +42,18 @@ def build_response_parts(
         return [f"{prefix}{text}"]
 
     # Truncate thinking content to keep it compact
-    if content_type == "thinking" and is_complete:
-        start_tag = TranscriptParser.EXPANDABLE_QUOTE_START
-        end_tag = TranscriptParser.EXPANDABLE_QUOTE_END
-        max_thinking = 500
-        if start_tag in text and end_tag in text:
-            inner = text[text.index(start_tag) + len(start_tag) : text.index(end_tag)]
-            if len(inner) > max_thinking:
-                inner = inner[:max_thinking] + "\n\n… (thinking truncated)"
-            text = start_tag + inner + end_tag
-        elif len(text) > max_thinking:
-            text = text[:max_thinking] + "\n\n… (thinking truncated)"
+    # DISABLED: User requested full thinking content
+    # if content_type == "thinking" and is_complete:
+    #     start_tag = TranscriptParser.EXPANDABLE_QUOTE_START
+    #     end_tag = TranscriptParser.EXPANDABLE_QUOTE_END
+    #     max_thinking = 500
+    #     if start_tag in text and end_tag in text:
+    #         inner = text[text.index(start_tag) + len(start_tag) : text.index(end_tag)]
+    #         if len(inner) > max_thinking:
+    #             inner = inner[:max_thinking] + "\n\n… (thinking truncated)"
+    #         text = start_tag + inner + end_tag
+    #     elif len(text) > max_thinking:
+    #         text = text[:max_thinking] + "\n\n… (thinking truncated)"
 
     # Format based on content type
     if content_type == "thinking":
